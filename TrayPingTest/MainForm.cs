@@ -12,7 +12,7 @@ using System.Net.Sockets;
 
 namespace TrayPingTest
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace TrayPingTest
         /// </summary>
         string targetHost;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             SetStatusText(BackgroundTimer.Enabled);
@@ -40,8 +40,8 @@ namespace TrayPingTest
         async void RunPingTest(object sender, EventArgs e)
         {
             // TODO Check if the IP Address is set
-            targetHost = textBox1.Text;
-            string[] ipAddress = textBox1.Text.Split(':');
+            targetHost = targetIpAddress.Text;
+            string[] ipAddress = targetIpAddress.Text.Split(':');
             string ip = ipAddress[0];
             int port = int.Parse(ipAddress[1]);
 
@@ -70,7 +70,7 @@ namespace TrayPingTest
             {
                 if (FailureCount < 9) FailureCount++;
 
-                StreamWriter logFileHandle = File.AppendText(saveFileDialog1.FileName);
+                StreamWriter logFileHandle = File.AppendText(saveDialogLocalLog.FileName);
                 logFileHandle.AutoFlush = true;
 
                 if (enableLogFile.Checked)
@@ -114,7 +114,7 @@ namespace TrayPingTest
         {
             statusLabel.Text = (status) ? " ONLINE" : "OFFLINE";
             statusLabel.ForeColor = (status) ? Color.Green : Color.Red;
-            button1.Text = (status) ? "Switch OFF" : "Switch ON";
+            testSwitch.Text = (status) ? "Switch OFF" : "Switch ON";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -132,7 +132,53 @@ namespace TrayPingTest
 
         private void button2_Click(object sender, EventArgs e)
         {
-            saveFileDialog1.ShowDialog();
+            saveDialogLocalLog.ShowDialog();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.TestTarget = targetIpAddress.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void saveDialogLocalLog_FileOk(object sender, CancelEventArgs e)
+        {
+            Properties.Settings.Default.LocalFileLogLocation = saveDialogLocalLog.FileName;
+            Properties.Settings.Default.Save();
+        }
+
+        private void enableLogFile_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.EnableLocalFileSave = enableLogFile.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void ShowMainForm(object sender, EventArgs e)
+        {
+            this.Show();
+        }
+
+        private void InterceptFormClose(object sender, FormClosingEventArgs e)
+        {
+            this.Hide();
+
+            if (Properties.Settings.Default.ShowCloseNotice)
+            {
+                TrayIcon.ShowBalloonTip(3, "Minimized to tray", "Click this notice to permanently hide it.", ToolTipIcon.Info);
+            }
+
+            e.Cancel = true;
+        }
+
+        private void TerminateApplication(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void DisableNoticeBalloon(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ShowCloseNotice = false;
+            Properties.Settings.Default.Save();
         }
 
     }
