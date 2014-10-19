@@ -25,18 +25,6 @@ namespace TrayPingTest.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("196.43.22.222:80")]
-        public string TestTarget {
-            get {
-                return ((string)(this["TestTarget"]));
-            }
-            set {
-                this["TestTarget"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("%userprofile%\\traypingtest.log")]
         public string LocalFileLogLocation {
             get {
@@ -68,6 +56,42 @@ namespace TrayPingTest.Properties {
             }
             set {
                 this["ShowCloseNotice"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableCloudLogging {
+            get {
+                return ((bool)(this["EnableCloudLogging"]));
+            }
+            set {
+                this["EnableCloudLogging"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LogEntriesAPIKey {
+            get {
+                return ((string)(this["LogEntriesAPIKey"]));
+            }
+            set {
+                this["LogEntriesAPIKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("196.43.22.222")]
+        public string TestTarget {
+            get {
+                return ((string)(this["TestTarget"]));
+            }
+            set {
+                this["TestTarget"] = value;
             }
         }
     }

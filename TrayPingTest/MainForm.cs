@@ -8,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Net.Sockets;
+using System.Net;
+using System.Net.NetworkInformation;
+using NLog;
 
 namespace TrayPingTest
 {
@@ -25,6 +27,11 @@ namespace TrayPingTest
         /// </summary>
         string targetHost;
 
+        /// <summary>
+        /// The Logentries log handler
+        /// </summary>
+        private static Logger log = LogManager.GetCurrentClassLogger();
+
         public MainForm()
         {
             InitializeComponent();
@@ -37,31 +44,30 @@ namespace TrayPingTest
             // Start the configured ping test
         }
 
-        async void RunPingTest(object sender, EventArgs e)
+        void RunPingTest(object sender, EventArgs e)
         {
             // TODO Check if the IP Address is set
             targetHost = targetIpAddress.Text;
-            string[] ipAddress = targetIpAddress.Text.Split(':');
-            string ip = ipAddress[0];
-            int port = int.Parse(ipAddress[1]);
-
-            if (port == 0) port = 23;
-
-            Console.WriteLine("Running ping test on " + ip);
-
-            TcpClient client = new TcpClient();
 
             try
             {
-                BackgroundTimer.Stop();
+                BackgroundTimer.Stop(); 
+                
+                Ping pingSender = new Ping();
+                IPAddress address = IPAddress.Parse(targetHost);
+                PingReply reply = pingSender.Send(address);
 
-                await client.ConnectAsync(ip, port);
-                if (client.Connected)
+                if (reply.Status == IPStatus.Success)
                 {
+                    // Successful connection
+                    string Message = string.Format("host={2} result=OK status={0} latency={1}ms", reply.Status.ToString(), reply.RoundtripTime, targetHost);
+                    CloudLogging.AddLogEntry(Message, 2);
                     if (FailureCount > 0) FailureCount--;
                 }
                 else
                 {
+                    string Message = string.Format("host={1} result=FAIL status={0}", reply.Status.ToString(), targetHost);
+                    CloudLogging.AddLogEntry(Message, 4);
                     if (FailureCount < 9) FailureCount++;
                 }
 
@@ -70,21 +76,24 @@ namespace TrayPingTest
             {
                 if (FailureCount < 9) FailureCount++;
 
-                StreamWriter logFileHandle = File.AppendText(saveDialogLocalLog.FileName);
-                logFileHandle.AutoFlush = true;
+                string strToWrite = string.Format("host={1} result=EXCEPTION status={0}", ex.Message, targetHost);
 
                 if (enableLogFile.Checked)
                 {
-                    string strToWrite = string.Format("{0}\t{1}\t{2}\n", DateTime.Now.ToString("HH:mm:ss"), targetHost, ex.Message);
+                    StreamWriter logFileHandle = File.AppendText(saveDialogLocalLog.FileName);
+                    logFileHandle.AutoFlush = true;
                     logFileHandle.Write(strToWrite);
                     logFileHandle.Close();
+                }
+
+                if (Properties.Settings.Default.EnableCloudLogging)
+                {
+                    CloudLogging.AddLogEntry(strToWrite, 5);
                 }
 
             }
             finally
             {
-                client.Close();
-                UpdateTrayIcon(FailureCount);
                 BackgroundTimer.Start();
             }
 
@@ -179,6 +188,28 @@ namespace TrayPingTest
         {
             Properties.Settings.Default.ShowCloseNotice = false;
             Properties.Settings.Default.Save();
+        }
+
+        /// <summary>
+        /// Manage the background cloud log uploads
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LogUploadTimer_Tick(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.EnableCloudLogging) CloudLogging.UploadLogEntries();
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.LogEntriesAPIKey = textBox1.Text;
+            Properties.Settings.Default.EnableCloudLogging = checkBox1.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void OpenGithubProjectPage(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/woganmay/tray-ping-test");
         }
 
     }

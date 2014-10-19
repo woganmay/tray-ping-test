@@ -31,6 +31,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.testSwitch = new System.Windows.Forms.Button();
             this.BackgroundTimer = new System.Windows.Forms.Timer(this.components);
@@ -39,33 +42,34 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.targetIpAddress = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.localFileLogPath = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.enableLogFile = new System.Windows.Forms.CheckBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.label4 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
-            this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.targetIpAddress = new System.Windows.Forms.TextBox();
-            this.localFileLogPath = new System.Windows.Forms.Label();
-            this.enableLogFile = new System.Windows.Forms.CheckBox();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
-            this.label5 = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.LogUploadTimer = new System.Windows.Forms.Timer(this.components);
+            this.TrayContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.tabPage4.SuspendLayout();
-            this.TrayContextMenu.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TrayIcon
@@ -76,6 +80,28 @@
             this.TrayIcon.Visible = true;
             this.TrayIcon.BalloonTipClicked += new System.EventHandler(this.DisableNoticeBalloon);
             this.TrayIcon.DoubleClick += new System.EventHandler(this.ShowMainForm);
+            // 
+            // TrayContextMenu
+            // 
+            this.TrayContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2});
+            this.TrayContextMenu.Name = "TrayContextMenu";
+            this.TrayContextMenu.Size = new System.Drawing.Size(181, 48);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "Show Main Window";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.ShowMainForm);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Text = "Exit";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.TerminateApplication);
             // 
             // label1
             // 
@@ -151,6 +177,27 @@
             this.tabPage1.Text = "Test Config";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(356, 111);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(24, 13);
+            this.linkLabel1.TabIndex = 3;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Exit";
+            this.linkLabel1.Click += new System.EventHandler(this.TerminateApplication);
+            // 
+            // targetIpAddress
+            // 
+            this.targetIpAddress.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::TrayPingTest.Properties.Settings.Default, "TestTarget", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.targetIpAddress.Location = new System.Drawing.Point(154, 40);
+            this.targetIpAddress.Name = "targetIpAddress";
+            this.targetIpAddress.Size = new System.Drawing.Size(143, 20);
+            this.targetIpAddress.TabIndex = 0;
+            this.targetIpAddress.Text = global::TrayPingTest.Properties.Settings.Default.TestTarget;
+            this.targetIpAddress.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.localFileLogPath);
@@ -165,6 +212,92 @@
             this.tabPage2.Text = "Log to File";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // localFileLogPath
+            // 
+            this.localFileLogPath.AutoSize = true;
+            this.localFileLogPath.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::TrayPingTest.Properties.Settings.Default, "LocalFileLogLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.localFileLogPath.Location = new System.Drawing.Point(6, 76);
+            this.localFileLogPath.Name = "localFileLogPath";
+            this.localFileLogPath.Size = new System.Drawing.Size(147, 13);
+            this.localFileLogPath.TabIndex = 7;
+            this.localFileLogPath.Text = global::TrayPingTest.Properties.Settings.Default.LocalFileLogLocation;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 54);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(84, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Log file location:";
+            // 
+            // enableLogFile
+            // 
+            this.enableLogFile.AutoSize = true;
+            this.enableLogFile.Checked = global::TrayPingTest.Properties.Settings.Default.EnableLocalFileSave;
+            this.enableLogFile.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::TrayPingTest.Properties.Settings.Default, "EnableLocalFileSave", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.enableLogFile.Location = new System.Drawing.Point(56, 23);
+            this.enableLogFile.Name = "enableLogFile";
+            this.enableLogFile.Size = new System.Drawing.Size(115, 17);
+            this.enableLogFile.TabIndex = 4;
+            this.enableLogFile.Text = "Save events to log";
+            this.enableLogFile.UseVisualStyleBackColor = true;
+            this.enableLogFile.CheckedChanged += new System.EventHandler(this.enableLogFile_CheckedChanged);
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.button1);
+            this.tabPage4.Controls.Add(this.textBox1);
+            this.tabPage4.Controls.Add(this.label3);
+            this.tabPage4.Controls.Add(this.checkBox1);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(386, 127);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Log to Cloud";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(196, 81);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Save Token";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.textBox1_TextChanged_1);
+            // 
+            // textBox1
+            // 
+            this.textBox1.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::TrayPingTest.Properties.Settings.Default, "LogEntriesAPIKey", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox1.Location = new System.Drawing.Point(88, 55);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(183, 20);
+            this.textBox1.TabIndex = 8;
+            this.textBox1.Text = global::TrayPingTest.Properties.Settings.Default.LogEntriesAPIKey;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged_1);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(44, 58);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(38, 13);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Token";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = global::TrayPingTest.Properties.Settings.Default.EnableCloudLogging;
+            this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::TrayPingTest.Properties.Settings.Default, "EnableCloudLogging", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox1.Location = new System.Drawing.Point(88, 24);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(183, 17);
+            this.checkBox1.TabIndex = 6;
+            this.checkBox1.Text = "Upload events to LogEntries.com";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.pictureBox2);
@@ -177,6 +310,44 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "About";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::TrayPingTest.Properties.Resources.woganmay;
+            this.pictureBox2.Location = new System.Drawing.Point(29, 30);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox2.TabIndex = 3;
+            this.pictureBox2.TabStop = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(110, 81);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(69, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "License: MIT";
+            // 
+            // linkLabel2
+            // 
+            this.linkLabel2.AutoSize = true;
+            this.linkLabel2.Location = new System.Drawing.Point(110, 55);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(81, 13);
+            this.linkLabel2.TabIndex = 1;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "View on GitHub";
+            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OpenGithubProjectPage);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(110, 30);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(143, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Tray Ping Test - Wogan May";
             // 
             // statusStrip1
             // 
@@ -195,136 +366,11 @@
             this.statusLabel.Size = new System.Drawing.Size(12, 17);
             this.statusLabel.Text = "_";
             // 
-            // tabPage4
+            // LogUploadTimer
             // 
-            this.tabPage4.Controls.Add(this.label3);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(386, 127);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Log to Cloud";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 54);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(84, 13);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Log file location:";
-            // 
-            // TrayContextMenu
-            // 
-            this.TrayContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.toolStripMenuItem2});
-            this.TrayContextMenu.Name = "TrayContextMenu";
-            this.TrayContextMenu.Size = new System.Drawing.Size(181, 48);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem1.Text = "Show Main Window";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.ShowMainForm);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem2.Text = "Exit";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.TerminateApplication);
-            // 
-            // targetIpAddress
-            // 
-            this.targetIpAddress.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::TrayPingTest.Properties.Settings.Default, "TestTarget", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.targetIpAddress.Location = new System.Drawing.Point(154, 40);
-            this.targetIpAddress.Name = "targetIpAddress";
-            this.targetIpAddress.Size = new System.Drawing.Size(143, 20);
-            this.targetIpAddress.TabIndex = 0;
-            this.targetIpAddress.Text = global::TrayPingTest.Properties.Settings.Default.TestTarget;
-            this.targetIpAddress.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // localFileLogPath
-            // 
-            this.localFileLogPath.AutoSize = true;
-            this.localFileLogPath.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::TrayPingTest.Properties.Settings.Default, "LocalFileLogLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.localFileLogPath.Location = new System.Drawing.Point(6, 76);
-            this.localFileLogPath.Name = "localFileLogPath";
-            this.localFileLogPath.Size = new System.Drawing.Size(147, 13);
-            this.localFileLogPath.TabIndex = 7;
-            this.localFileLogPath.Text = global::TrayPingTest.Properties.Settings.Default.LocalFileLogLocation;
-            // 
-            // enableLogFile
-            // 
-            this.enableLogFile.AutoSize = true;
-            this.enableLogFile.Checked = global::TrayPingTest.Properties.Settings.Default.EnableLocalFileSave;
-            this.enableLogFile.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::TrayPingTest.Properties.Settings.Default, "EnableLocalFileSave", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.enableLogFile.Location = new System.Drawing.Point(56, 23);
-            this.enableLogFile.Name = "enableLogFile";
-            this.enableLogFile.Size = new System.Drawing.Size(115, 17);
-            this.enableLogFile.TabIndex = 4;
-            this.enableLogFile.Text = "Save events to log";
-            this.enableLogFile.UseVisualStyleBackColor = true;
-            this.enableLogFile.CheckedChanged += new System.EventHandler(this.enableLogFile_CheckedChanged);
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(356, 111);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(24, 13);
-            this.linkLabel1.TabIndex = 3;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Exit";
-            this.linkLabel1.Click += new System.EventHandler(this.TerminateApplication);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(31, 48);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(286, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Under construction - will let you post logs to a cloud service";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(110, 30);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(143, 13);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Tray Ping Test - Wogan May";
-            // 
-            // linkLabel2
-            // 
-            this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(110, 55);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(81, 13);
-            this.linkLabel2.TabIndex = 1;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "View on GitHub";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(110, 81);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 13);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "License: MIT";
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::TrayPingTest.Properties.Resources.avatar_sample;
-            this.pictureBox2.Location = new System.Drawing.Point(29, 30);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox2.TabIndex = 3;
-            this.pictureBox2.TabStop = false;
+            this.LogUploadTimer.Enabled = true;
+            this.LogUploadTimer.Interval = 5000;
+            this.LogUploadTimer.Tick += new System.EventHandler(this.LogUploadTimer_Tick);
             // 
             // MainForm
             // 
@@ -346,20 +392,20 @@
             this.Text = "Tray Ping Test";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.InterceptFormClose);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.TrayContextMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
-            this.TrayContextMenu.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -389,11 +435,15 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Timer LogUploadTimer;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

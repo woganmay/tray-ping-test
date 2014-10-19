@@ -63,9 +63,9 @@ namespace TrayPingTest.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap avatar_sample {
+        internal static System.Drawing.Bitmap image {
             get {
-                object obj = ResourceManager.GetObject("avatar_sample", resourceCulture);
+                object obj = ResourceManager.GetObject("image", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace TrayPingTest.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap image {
+        internal static System.Drawing.Bitmap woganmay {
             get {
-                object obj = ResourceManager.GetObject("image", resourceCulture);
+                object obj = ResourceManager.GetObject("woganmay", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
